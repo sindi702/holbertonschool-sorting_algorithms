@@ -5,7 +5,7 @@
 #include "sort.h"
 
 /**
- * insertion_sort_list - implementation of the insertion sort algorithm 
+ * insertion_sort_list - implementation of the insertion sort algorithm
  * @list: doubly linked list to be sorted
  */
 
