@@ -2,31 +2,36 @@
 #include <stdlib.h>
 #include "sort.h"
 
-/**
- * create_listint - Creates a doubly linked list from an array of integer
- * @array: Array to convert to a doubly linked list
- * @size: Size of the array
- * Return: Pointer to the first element of the created list. NULL on failure
- */
-listint_t *create_listint(const int *array, size_t size)
-{
-	listint_t *list;
-	listint_t *node;
-	int *tmp;
+#include "sort.h"
 
-	list = NULL;
-	while (size--)
+/**
+ * insertion_sort_list - implementation of the insertion sort algorithm 
+ * @list: doubly linked list to be sorted
+ */
+
+void insertion_sort_list(listint_t **list)
+{
+	listint_t *tmp;
+
+	if (list == NULL)
+		return;
+	tmp = (*list)->next;
+	while (tmp)
 	{
-		 node = malloc(sizeof(*node));
-		 if (!node)
-			 return (NULL);
-		 tmp = (int *)&node->n;
-		 *tmp = array[size];
-		 node->next = list;
-		 node->prev = NULL;
-		 list = node;
-		 if (list->next)
-			 list->next->prev = list;
+		while (tmp->prev != NULL && tmp->prev->n > tmp->n)
+		{
+			tmp->prev->next = tmp->next;
+			if (tmp->next != NULL)
+				tmp->next->prev = tmp->prev;
+			tmp->next = tmp->prev;
+			tmp->prev = tmp->next->prev;
+			tmp->next->prev = tmp;
+			if (tmp->prev != NULL)
+				tmp->prev->next = tmp;
+			else
+				*list = tmp;
+			print_list(*list);
+		}
+		tmp = tmp->next;
 	}
-	return (list);
 }
